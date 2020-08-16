@@ -19,68 +19,67 @@ class _Signin_PageState extends State<Signin_Page> {
         middle: Text('Food App'),
         backgroundColor: CupertinoColors.activeOrange,
       ),
-      child: ListView(
-        children: <Widget>[
-          _crearEmail(),
-          _crearPassword(),
-          _crearBoton(),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child:
+            Column(mainAxisSize: MainAxisSize.min, children: _buildChildren()),
       ),
+      //backgroundColor: CupertinoColors.systemGrey2,
     );
   }
 
-  Widget _crearEmail() {
-    return CupertinoTextField(
-      controller: _txtEmailCntrllr,
-      prefix: Icon(
-        CupertinoIcons.mail_solid,
-        color: CupertinoColors.extraLightBackgroundGray,
-        size: 35.0,
+  List<Widget> _buildChildren() {
+    return [
+      CupertinoTextField(
+        controller: _txtEmailCntrllr,
+        prefix: Icon(
+          CupertinoIcons.mail_solid,
+          color: CupertinoColors.extraLightBackgroundGray,
+          size: 35.0,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
+        clearButtonMode: OverlayVisibilityMode.editing,
+        keyboardType: TextInputType.emailAddress,
+        autocorrect: false,
+        decoration: BoxDecoration(
+          border: Border(
+              bottom:
+                  BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
+        ),
+        placeholder: 'Email',
+        onChanged: (value) {
+          value = _txtEmailCntrllr.toString();
+          Text(value);
+        },
       ),
-      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
-      clearButtonMode: OverlayVisibilityMode.editing,
-      keyboardType: TextInputType.emailAddress,
-      autocorrect: false,
-      decoration: BoxDecoration(
-        border: Border(
-            bottom:
-                BorderSide(width: 0.5, color: CupertinoColors.inactiveGray)),
+      CupertinoTextField(
+        controller: _txtPassCntrllr,
+        prefix: Icon(
+          CupertinoIcons.padlock_solid,
+          color: CupertinoColors.extraLightBackgroundGray,
+          size: 35.0,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
+        clearButtonMode: OverlayVisibilityMode.editing,
+        keyboardType: TextInputType.visiblePassword,
+        autocorrect: false,
+        decoration: BoxDecoration(
+          border: Border(
+              bottom:
+                  BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
+        ),
+        placeholder: 'Type a password',
+        obscureText: true,
       ),
-      placeholder: 'Email',
-      onChanged: (value) {
-        value = _txtEmailCntrllr.toString();
-        Text(value);
-      },
-    );
-  }
-
-  Widget _crearPassword() {
-    return CupertinoTextField(
-      controller: _txtPassCntrllr,
-      prefix: Icon(
-        CupertinoIcons.padlock_solid,
-        color: CupertinoColors.extraLightBackgroundGray,
-        size: 35.0,
+      SizedBox(
+        height: 10,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
-      clearButtonMode: OverlayVisibilityMode.editing,
-      keyboardType: TextInputType.visiblePassword,
-      autocorrect: false,
-      decoration: BoxDecoration(
-        border: Border(
-            bottom:
-                BorderSide(width: 0.5, color: CupertinoColors.inactiveGray)),
-      ),
-      placeholder: 'Type a password',
-    );
-  }
-
-  Widget _crearBoton() {
-    return CupertinoButton.filled(
-      child: Text('Sign In'),
-      onPressed: _signFunction,
-      padding: EdgeInsets.symmetric(horizontal: 20),
-    );
+      CupertinoButton.filled(
+        child: Text('Sign In'),
+        onPressed: _signFunction,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+      )
+    ];
   }
 
   void _signFunction() {
