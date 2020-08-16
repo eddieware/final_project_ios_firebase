@@ -12,23 +12,21 @@ class _Signin_PageState extends State<Signin_Page> {
   TextEditingController _txtPassCntrllr = new TextEditingController();
   TextEditingController _txtEmailCntrllr = new TextEditingController();
 
-  String _email = '';
-  String _pass = '';
-
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          middle: Text('Food App'),
-          backgroundColor: CupertinoColors.activeOrange,
-        ),
-        child: ListView(
-          children: <Widget>[
-            _crearEmail(),
-            _crearPassword(),
-            _crearBoton(),
-          ],
-        ));
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('Food App'),
+        backgroundColor: CupertinoColors.activeOrange,
+      ),
+      child: ListView(
+        children: <Widget>[
+          _crearEmail(),
+          _crearPassword(),
+          _crearBoton(),
+        ],
+      ),
+    );
   }
 
   Widget _crearEmail() {
