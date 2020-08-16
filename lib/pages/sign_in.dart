@@ -19,10 +19,21 @@ class _Signin_PageState extends State<Signin_Page> {
         middle: Text('Food App'),
         backgroundColor: CupertinoColors.activeOrange,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child:
-            Column(mainAxisSize: MainAxisSize.min, children: _buildChildren()),
+      child: Container(
+        //color: CupertinoColors.activeBlue,
+        child: Card(
+          margin: EdgeInsets.all(16.0),
+          shadowColor: CupertinoColors.inactiveGray,
+          elevation: 10,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _buildChildren(),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+            ),
+          ),
+        ),
       ),
       //backgroundColor: CupertinoColors.systemGrey2,
     );
@@ -34,7 +45,7 @@ class _Signin_PageState extends State<Signin_Page> {
         controller: _txtEmailCntrllr,
         prefix: Icon(
           CupertinoIcons.mail_solid,
-          color: CupertinoColors.extraLightBackgroundGray,
+          color: CupertinoColors.systemGrey3,
           size: 35.0,
         ),
         padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
@@ -52,11 +63,14 @@ class _Signin_PageState extends State<Signin_Page> {
           Text(value);
         },
       ),
+      SizedBox(
+        height: 10,
+      ),
       CupertinoTextField(
         controller: _txtPassCntrllr,
         prefix: Icon(
           CupertinoIcons.padlock_solid,
-          color: CupertinoColors.extraLightBackgroundGray,
+          color: CupertinoColors.systemGrey3,
           size: 35.0,
         ),
         padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
@@ -78,7 +92,11 @@ class _Signin_PageState extends State<Signin_Page> {
         child: Text('Sign In'),
         onPressed: _signFunction,
         padding: EdgeInsets.symmetric(horizontal: 20),
-      )
+      ),
+      SizedBox(
+        height: 10,
+      ),
+      CupertinoButton(child: Text('Registrarse'), onPressed: () {})
     ];
   }
 
