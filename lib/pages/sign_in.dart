@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+enum EmailSignInFormType { signIn, register }
+
 class Signin_Page extends StatefulWidget {
   Signin_Page({Key key}) : super(key: key);
 
@@ -11,6 +13,10 @@ class Signin_Page extends StatefulWidget {
 class _Signin_PageState extends State<Signin_Page> {
   TextEditingController _txtPassCntrllr = new TextEditingController();
   TextEditingController _txtEmailCntrllr = new TextEditingController();
+
+  EmailSignInFormType _formType = EmailSignInFormType.signIn;
+
+  String _selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,21 @@ class _Signin_PageState extends State<Signin_Page> {
     );
   }
 
+  void _toggleFormType() {
+    setState(() {
+      _formType = _formType == EmailSignInFormType.signIn
+          ? EmailSignInFormType.register
+          : EmailSignInFormType.signIn;
+    });
+  }
+
   List<Widget> _buildChildren() {
+    final primaryText =
+        _formType == EmailSignInFormType.signIn ? 'Sign In' : 'Create Acount';
+    final secondText = _formType == EmailSignInFormType.signIn
+        ? 'Need an Account'
+        : 'Have an Acount';
+
     return [
       CupertinoTextField(
         controller: _txtEmailCntrllr,
@@ -90,19 +110,42 @@ class _Signin_PageState extends State<Signin_Page> {
       ),
       CupertinoButton.filled(
         child: Text('Sign In'),
-        onPressed: _signFunction,
+        onPressed: () => _showAction(context),
         padding: EdgeInsets.symmetric(horizontal: 20),
       ),
-      SizedBox(
-        height: 10,
-      ),
-      CupertinoButton(child: Text('Registrarse'), onPressed: () {})
+      Text('')
     ];
   }
 
-  void _signFunction() {
-    //print('SIGNIN FUNCTION');
+  void _showAction(BuildContext context) {
+    //imprimimos
     print('${_txtEmailCntrllr.text}');
     print('${_txtPassCntrllr.text}');
+
+    if (_txtEmailCntrllr.text == '' || _txtPassCntrllr.text == '') {
+      print('Por favor llena los campos');
+
+      showCupertinoDialog<String>(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text('El Email o Contraseña NO coinsiden o NO estan llenos'),
+            //content: Text('Desea guardar los cambios?'),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('Aceptar'),
+                onPressed: () => Navigator.pop(context, 'Aceptar'),
+              )
+            ],
+          );
+        },
+      ).then((value) {
+        setState(() {
+          _selectedValue = value;
+        });
+      });
+    } else {
+      print('campos llenos');
+    }
   }
 }
