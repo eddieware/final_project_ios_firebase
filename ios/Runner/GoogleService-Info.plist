@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>912714604768-1rcchb9j7b4ls4heucrekeo5bn2fe9rn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.912714604768-1rcchb9j7b4ls4heucrekeo5bn2fe9rn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB5YYP38qk3FKypdbbWxQ6XiPwdqREe_zM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>912714604768</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.finalProjectIosFirebase</string>
+	<key>PROJECT_ID</key>
+	<string>authprojectios</string>
+	<key>STORAGE_BUCKET</key>
+	<string>authprojectios.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:912714604768:ios:209d29ba172becc0e37085</string>
+	<key>DATABASE_URL</key>
+	<string>https://authprojectios.firebaseio.com</string>
+</dict>
+</plist>
