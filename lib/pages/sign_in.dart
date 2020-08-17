@@ -1,22 +1,24 @@
+import 'package:final_project_ios_firebase/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 enum EmailSignInFormType { signIn, register }
 
-class Signin_Page extends StatefulWidget {
-  Signin_Page({Key key}) : super(key: key);
+class EmailSignInForm extends StatefulWidget {
+  EmailSignInForm({@required this.auth});
+  final AuthBase auth;
 
   @override
-  _Signin_PageState createState() => _Signin_PageState();
+  _EmailSignInFormState createState() => _EmailSignInFormState();
 }
 
-class _Signin_PageState extends State<Signin_Page> {
+class _EmailSignInFormState extends State<EmailSignInForm> {
   TextEditingController _txtPassCntrllr = new TextEditingController();
   TextEditingController _txtEmailCntrllr = new TextEditingController();
 
+  String get _email => _txtEmailCntrllr.text;
+  String get _password => _txtPassCntrllr.text;
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
-
-  String _selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +56,12 @@ class _Signin_PageState extends State<Signin_Page> {
   }
 
   List<Widget> _buildChildren() {
-    final primaryText =
-        _formType == EmailSignInFormType.signIn ? 'Sign In' : 'Create Acount';
-    final secondText = _formType == EmailSignInFormType.signIn
-        ? 'Need an Account'
-        : 'Have an Acount';
+    final primaryText = _formType == EmailSignInFormType.signIn
+        ? 'Sign in'
+        : 'Create an account';
+    final secondaryText = _formType == EmailSignInFormType.signIn
+        ? 'Need an account? Register'
+        : 'Have an account? Sign in';
 
     return [
       CupertinoTextField(
@@ -77,7 +80,7 @@ class _Signin_PageState extends State<Signin_Page> {
               bottom:
                   BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
         ),
-        placeholder: 'Email',
+        placeholder: 'test@test.com',
         onChanged: (value) {
           value = _txtEmailCntrllr.toString();
           Text(value);
@@ -102,7 +105,7 @@ class _Signin_PageState extends State<Signin_Page> {
               bottom:
                   BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
         ),
-        placeholder: 'Type a password',
+        placeholder: 'Type password',
         obscureText: true,
       ),
       SizedBox(
@@ -113,17 +116,46 @@ class _Signin_PageState extends State<Signin_Page> {
         onPressed: () => _showAction(context),
         padding: EdgeInsets.symmetric(horizontal: 20),
       ),
-      Text('')
+      SizedBox(
+        height: 10,
+      ),
+      //form
+      CupertinoButton(child: Text(primaryText), onPressed: _submit),
+      SizedBox(
+        height: 10,
+      ),
+      SizedBox(height: 8.0),
+      FlatButton(
+        child: Text(secondaryText),
+        onPressed: _toggleFormType,
+      ),
     ];
   }
 
-  void _showAction(BuildContext context) {
+  void _submit() async {
+    try {
+      if (_formType == EmailSignInFormType.signIn) {
+        await widget.auth.signInWithEmailAndPassword(_email, _password);
+      } else {
+        await widget.auth.createUserWithEmailAndPassword(_email, _password);
+      }
+      Navigator.pushNamed(context, '/home');
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _showAction(BuildContext context) async {
     //imprimimos
     print('${_txtEmailCntrllr.text}');
     print('${_txtPassCntrllr.text}');
 
     if (_txtEmailCntrllr.text == '' || _txtPassCntrllr.text == '') {
+      //Limpiamos despues de que el usuario lleno mal
+
       print('Por favor llena los campos');
+      _txtEmailCntrllr.clear();
+      _txtPassCntrllr.clear();
 
       showCupertinoDialog<String>(
         context: context,
@@ -139,13 +171,20 @@ class _Signin_PageState extends State<Signin_Page> {
             ],
           );
         },
-      ).then((value) {
-        setState(() {
-          _selectedValue = value;
-        });
-      });
+      );
     } else {
-      print('campos llenos');
+      print('Campos llenos');
+
+      try {
+        if (_formType == EmailSignInFormType.signIn) {
+          await widget.auth.signInWithEmailAndPassword(_email, _password);
+        } else {
+          await widget.auth.createUserWithEmailAndPassword(_email, _password);
+        }
+        Navigator.of(context).pop();
+      } catch (e) {
+        print(e.toString());
+      }
     }
   }
 }
