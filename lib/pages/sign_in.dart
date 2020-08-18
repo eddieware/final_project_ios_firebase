@@ -1,5 +1,10 @@
+import 'package:final_project_ios_firebase/services/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+enum authProblems { UserNotFound, PasswordNotValid, NetworkError }
 
 class EmailSignInForm extends StatefulWidget {
   @override
@@ -16,7 +21,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   @override
   Widget build(BuildContext context) {
     //To override and
-    _txtEmailCntrllr.text = 'test@test.com';
+    _txtEmailCntrllr.text = 'test@test.com1';
     _txtPassCntrllr.text = 'password';
 
     return CupertinoPageScaffold(
@@ -105,35 +110,46 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   }
 
   void _showAction(BuildContext context) async {
-    //imprimimos
+    Auth auth;
+    auth.createUserWithEmailAndPassword(
+        _txtEmailCntrllr.text, _txtPassCntrllr.text);
 
-    print('${_txtEmailCntrllr.text}');
-    print('${_txtPassCntrllr.text}');
+    // FirebaseAuth.instance
+    //     .signInWithEmailAndPassword(
+    //         email: _txtEmailCntrllr.text, password: _txtPassCntrllr.text)
+    //     .catchError(FlutterError.onError)
+    //     .then((user) {});
+    // //imprimimos
 
-    if (_txtEmailCntrllr.text == '' || _txtPassCntrllr.text == '') {
-      //Limpiamos despues de que el usuario lleno mal
+    // print('${_txtEmailCntrllr.text}');
+    // print('${_txtPassCntrllr.text}');
 
-      print('Por favor llena los campos');
-      _txtEmailCntrllr.clear();
-      _txtPassCntrllr.clear();
+    // if (_txtEmailCntrllr.text == '' || _txtPassCntrllr.text == '') {
+    //   //Limpiamos despues de que el usuario lleno mal
 
-      showCupertinoDialog<String>(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('El Email o Contraseña NO coinsiden o NO estan llenos'),
-            //content: Text('Desea guardar los cambios?'),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text('Aceptar'),
-                onPressed: () => Navigator.pop(context, 'Aceptar'),
-              )
-            ],
-          );
-        },
-      );
-    } else {
-      print('Campos llenos');
-    }
+    //   print('Por favor llena los campos');
+    //   _txtEmailCntrllr.clear();
+    //   _txtPassCntrllr.clear();
+
+    //   showCupertinoDialog<String>(
+    //     context: context,
+    //     builder: (context) {
+    //       return CupertinoAlertDialog(
+    //         title: Text('El Email o Contraseña NO coinsiden o NO estan llenos'),
+    //         //content: Text('Desea guardar los cambios?'),
+    //         actions: <Widget>[
+    //           CupertinoDialogAction(
+    //             child: Text('Aceptar'),
+    //             onPressed: () => Navigator.pop(context, 'Aceptar'),
+    //           )
+    //         ],
+    //       );
+    //     },
+    //   );
+    // } else {
+    //   //validacion de errore
+
+    //   //Navigator.pushNamed(context, '/profile');
+    // }
   }
 }
