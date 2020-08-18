@@ -1,5 +1,6 @@
 import 'package:final_project_ios_firebase/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,7 +22,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   @override
   Widget build(BuildContext context) {
     //To override and
-    _txtEmailCntrllr.text = 'test@test.com1';
+    _txtEmailCntrllr.text = 'test@test.com';
     _txtPassCntrllr.text = 'password';
 
     return CupertinoPageScaffold(
@@ -110,46 +111,57 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   }
 
   void _showAction(BuildContext context) async {
-    Auth auth;
-    auth.createUserWithEmailAndPassword(
-        _txtEmailCntrllr.text, _txtPassCntrllr.text);
+    try {
+      print('Si entra al try !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _txtEmailCntrllr.text, password: _txtPassCntrllr.text);
+      print('Si sale al try !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    } catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
 
-    // FirebaseAuth.instance
-    //     .signInWithEmailAndPassword(
-    //         email: _txtEmailCntrllr.text, password: _txtPassCntrllr.text)
-    //     .catchError(FlutterError.onError)
-    //     .then((user) {});
-    // //imprimimos
+    // imprimimos
 
-    // print('${_txtEmailCntrllr.text}');
-    // print('${_txtPassCntrllr.text}');
+    // Auth auth;
+    // final validacionUsuario = auth.createUserWithEmailAndPassword(
+    //     _txtEmailCntrllr.text, _txtPassCntrllr.text);
+    // print('$validacionUsuario LINEA PARA PROBAR QUE IMPRIME');
 
-    // if (_txtEmailCntrllr.text == '' || _txtPassCntrllr.text == '') {
-    //   //Limpiamos despues de que el usuario lleno mal
+    print('Campos Llenos');
+    print('${_txtEmailCntrllr.text}');
+    print('${_txtPassCntrllr.text}');
 
-    //   print('Por favor llena los campos');
-    //   _txtEmailCntrllr.clear();
-    //   _txtPassCntrllr.clear();
+    if (_txtEmailCntrllr.text == '' || _txtPassCntrllr.text == '') {
+      //Limpiamos despues de que el usuario lleno mal
 
-    //   showCupertinoDialog<String>(
-    //     context: context,
-    //     builder: (context) {
-    //       return CupertinoAlertDialog(
-    //         title: Text('El Email o Contraseña NO coinsiden o NO estan llenos'),
-    //         //content: Text('Desea guardar los cambios?'),
-    //         actions: <Widget>[
-    //           CupertinoDialogAction(
-    //             child: Text('Aceptar'),
-    //             onPressed: () => Navigator.pop(context, 'Aceptar'),
-    //           )
-    //         ],
-    //       );
-    //     },
-    //   );
-    // } else {
-    //   //validacion de errore
+      print('Por favor llena los campos');
+      _txtEmailCntrllr.clear();
+      _txtPassCntrllr.clear();
 
-    //   //Navigator.pushNamed(context, '/profile');
-    // }
+      showCupertinoDialog<String>(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text('El Email o Contraseña NO coinsiden o NO estan llenos'),
+            //content: Text('Desea guardar los cambios?'),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('Aceptar'),
+                onPressed: () => Navigator.pop(context, 'Aceptar'),
+              )
+            ],
+          );
+        },
+      );
+    } else {
+      //validacion de errore
+      // print('Si entra al else !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+      //Navigator.pushNamed(context, '/profile');
+    }
   }
 }
