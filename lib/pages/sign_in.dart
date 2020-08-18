@@ -1,13 +1,7 @@
-import 'package:final_project_ios_firebase/services/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum EmailSignInFormType { signIn, register }
-
 class EmailSignInForm extends StatefulWidget {
-  EmailSignInForm({@required this.auth});
-  final AuthBase auth;
-
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -16,12 +10,15 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   TextEditingController _txtPassCntrllr = new TextEditingController();
   TextEditingController _txtEmailCntrllr = new TextEditingController();
 
-  String get _email => _txtEmailCntrllr.text;
-  String get _password => _txtPassCntrllr.text;
-  EmailSignInFormType _formType = EmailSignInFormType.signIn;
+  // String get _email => _txtEmailCntrllr.text;
+  // String get _password => _txtPassCntrllr.text;
 
   @override
   Widget build(BuildContext context) {
+    //To override and
+    _txtEmailCntrllr.text = 'test@test.com';
+    _txtPassCntrllr.text = 'password';
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text('Food App'),
@@ -47,22 +44,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     );
   }
 
-  void _toggleFormType() {
-    setState(() {
-      _formType = _formType == EmailSignInFormType.signIn
-          ? EmailSignInFormType.register
-          : EmailSignInFormType.signIn;
-    });
-  }
-
   List<Widget> _buildChildren() {
-    final primaryText = _formType == EmailSignInFormType.signIn
-        ? 'Sign in'
-        : 'Create an account';
-    final secondaryText = _formType == EmailSignInFormType.signIn
-        ? 'Need an account? Register'
-        : 'Have an account? Sign in';
-
     return [
       CupertinoTextField(
         controller: _txtEmailCntrllr,
@@ -119,34 +101,12 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       SizedBox(
         height: 10,
       ),
-      //form
-      CupertinoButton(child: Text(primaryText), onPressed: _submit),
-      SizedBox(
-        height: 10,
-      ),
-      SizedBox(height: 8.0),
-      FlatButton(
-        child: Text(secondaryText),
-        onPressed: _toggleFormType,
-      ),
     ];
-  }
-
-  void _submit() async {
-    try {
-      if (_formType == EmailSignInFormType.signIn) {
-        await widget.auth.signInWithEmailAndPassword(_email, _password);
-      } else {
-        await widget.auth.createUserWithEmailAndPassword(_email, _password);
-      }
-      Navigator.pushNamed(context, '/home');
-    } catch (e) {
-      print(e.toString());
-    }
   }
 
   void _showAction(BuildContext context) async {
     //imprimimos
+
     print('${_txtEmailCntrllr.text}');
     print('${_txtPassCntrllr.text}');
 
@@ -174,17 +134,6 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       );
     } else {
       print('Campos llenos');
-
-      try {
-        if (_formType == EmailSignInFormType.signIn) {
-          await widget.auth.signInWithEmailAndPassword(_email, _password);
-        } else {
-          await widget.auth.createUserWithEmailAndPassword(_email, _password);
-        }
-        Navigator.of(context).pop();
-      } catch (e) {
-        print(e.toString());
-      }
     }
   }
 }
