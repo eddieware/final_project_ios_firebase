@@ -13,6 +13,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
+          backgroundColor: CupertinoColors.activeBlue,
           middle: Text('Profile'),
         ),
         child: Container(

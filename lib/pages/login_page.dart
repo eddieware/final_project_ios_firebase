@@ -37,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
       child: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text('Food App'),
-          backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+          // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+          backgroundColor: CupertinoColors.activeBlue,
         ),
         child: Align(
           alignment: Alignment.center,
