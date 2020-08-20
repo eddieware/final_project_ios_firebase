@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:final_project_ios_firebase/providers/auth_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<StatefulWidget> createState() {
+    return _LoginPageState();
+  }
 }
 
 class _LoginPageState extends State<LoginPage> {
   double _altoScreen;
   double _anchoScreen;
   String _email;
-  String _pasword;
+  String _password;
 
   GlobalKey<FormState> _formKey;
+  AuthProvider _auth;
 
   _LoginPageState() {
     _formKey = GlobalKey<FormState>();
@@ -24,35 +28,41 @@ class _LoginPageState extends State<LoginPage> {
     _altoScreen = MediaQuery.of(context).size.height;
     _anchoScreen = MediaQuery.of(context).size.width;
 
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Food App'),
-        backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: _loginPageUI(),
+    return Material(
+      child: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Food App'),
+          backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: ChangeNotifierProvider<AuthProvider>.value(
+            value: AuthProvider.instance,
+            child: _loginPageUI(),
+          ),
+        ),
       ),
     );
   }
 
   Widget _loginPageUI() {
-    return Builder(
-      builder: (BuildContext _context) {
-        return Container(
-          //color: CupertinoColors.activeBlue,
-          height: _altoScreen * 0.60,
-          padding: EdgeInsets.symmetric(horizontal: _anchoScreen * 0.10),
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[_headingWidget(), _inputForm()],
-          ),
-        );
-      },
-    );
+    //para usar el build context
+    return Builder(builder: (BuildContext _context) {
+      _auth = Provider.of<AuthProvider>(_context);
+      print(_auth.user);
+      return Container(
+        //color: CupertinoColors.activeBlue,
+        height: _altoScreen * 0.60,
+        padding: EdgeInsets.symmetric(horizontal: _anchoScreen * 0.10),
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[_headingWidget(), _inputForm()],
+        ),
+      );
+    });
   }
 
   Widget _headingWidget() {
@@ -80,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _inputForm() {
     print(_email);
 
-    print(_pasword);
+    print(_password);
     return Container(
       //color: CupertinoColors.activeBlue,
       height: _altoScreen * 0.26,
@@ -159,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
       onChanged: (_input) {
         print(_input);
         setState(() {
-          _pasword = _input;
+          _password = _input;
         });
       },
       onSubmitted: (_input) {
@@ -192,6 +202,7 @@ class _LoginPageState extends State<LoginPage> {
           print('Button Pressed');
           if (_formKey.currentState.validate()) {
             print('Valid stuff things');
+            _auth.loginUserWithEmailAndPassword(_email, _password);
           }
         },
       ),
