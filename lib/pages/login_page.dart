@@ -120,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
             _emailTextField(),
             _passwordTextField(),
             _loginButton(),
+            _registerButton()
 
             //_passwordTextField(),
           ],
@@ -213,6 +214,24 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushNamed(context, '/profile');
           }
         },
+      ),
+    );
+  }
+
+  Widget _registerButton() {
+    return GestureDetector(
+      onTap: () {
+        //NavigationService.instance.navigateTo("register");
+      },
+      child: Container(
+        height: _altoScreen * 0.06,
+        width: _anchoScreen,
+        child: Text(
+          "REGISTER",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w700, color: Colors.white60),
+        ),
       ),
     );
   }
