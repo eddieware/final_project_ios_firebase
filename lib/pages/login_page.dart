@@ -19,12 +19,12 @@ class _LoginPageState extends State<LoginPage> {
   String _email;
   String _password;
 
-  GlobalKey<FormState> _formKey;
+  // GlobalKey<FormState> _formKey;
   AuthProvider _auth;
 
-  _LoginPageState() {
-    _formKey = GlobalKey<FormState>();
-  }
+  // _LoginPageState() {
+  //   _formKey = GlobalKey<FormState>();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +108,9 @@ class _LoginPageState extends State<LoginPage> {
 
       height: _altoScreen * 0.26,
       child: Form(
-        key: _formKey,
+        // key: _formKey,
         onChanged: () {
-          _formKey.currentState.save();
+          // _formKey.currentState.save();
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,31 +191,40 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginButton() {
-    return Container(
-      height: _altoScreen * 0.06,
-      width: _anchoScreen,
-      child: CupertinoButton.filled(
-        child: Text(
-          "LOGIN",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: CupertinoColors.white),
-        ),
-        onPressed: () {
-          print(_auth.user);
-          _auth.loginUserWithEmailAndPassword(
-              _txtEmailCntrllr.text, _txtPassCntrllr.text);
-          if (_auth.user == null) {
-            print('Usuario no valido');
-          } else {
-            print('Usuario Valido');
-            Navigator.pushNamed(context, '/profile');
-          }
-        },
-      ),
-    );
+    // _txtEmailCntrllr.text = 'test@test.com';
+    // _txtPassCntrllr.text = 'password';
+    return _auth.status == AuthStatus.Authenticating
+        ? Align(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          )
+        : Container(
+            height: _altoScreen * 0.06,
+            width: _anchoScreen,
+            child: CupertinoButton.filled(
+              child: Text(
+                "LOGIN",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: CupertinoColors.white),
+              ),
+              onPressed: () async {
+                await _auth.loginUserWithEmailAndPassword(
+                    _txtEmailCntrllr.text, _txtPassCntrllr.text);
+                //print('${_auth.user}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                print('${_txtEmailCntrllr.text}');
+                print('${_txtPassCntrllr.text}');
+                if (_auth.user == null) {
+                  print('Usuario no valido');
+                } else {
+                  print('Login Succesfully');
+                  Navigator.pushNamed(context, '/profile');
+                }
+              },
+            ),
+          );
   }
 
   Widget _registerButton() {

@@ -28,7 +28,6 @@ class AuthProvider extends ChangeNotifier {
           email: _email, password: _password);
       user = _result.user;
       status = AuthStatus.Authenticated;
-      print('Login Succesfully');
     } catch (e) {
       status = AuthStatus.Error;
       print('Login Error');
