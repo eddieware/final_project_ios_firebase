@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:final_project_ios_firebase/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +10,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   double _altoScreen;
   double _anchoScreen;
+  String _email;
+  String _pasword;
 
   GlobalKey<FormState> _formKey;
 
@@ -74,6 +78,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _inputForm() {
+    print(_email);
+
+    print(_pasword);
     return Container(
       //color: CupertinoColors.activeBlue,
       height: _altoScreen * 0.26,
@@ -101,26 +108,33 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _emailTextField() {
     return CupertinoTextField(
-      //controller: _txtEmailCntrllr,
-      prefix: Icon(
-        CupertinoIcons.mail_solid,
-        color: CupertinoColors.systemGrey3,
-        size: 35.0,
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
-      clearButtonMode: OverlayVisibilityMode.editing,
-      keyboardType: TextInputType.emailAddress,
-      autocorrect: false,
-      decoration: BoxDecoration(
-        border: Border(
-            bottom: BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
-      ),
-      placeholder: 'test@test.com',
-      onChanged: (value) {
-        //value = _txtEmailCntrllr.toString();
-        TextStyle(fontSize: 25, color: CupertinoColors.activeGreen);
-      },
-    );
+        //controller: _txtEmailCntrllr,
+        prefix: Icon(
+          CupertinoIcons.mail_solid,
+          color: CupertinoColors.systemGrey3,
+          size: 35.0,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
+        clearButtonMode: OverlayVisibilityMode.editing,
+        keyboardType: TextInputType.emailAddress,
+        autocorrect: false,
+        onSubmitted: (_inputValidation) {
+          return _inputValidation.length != 0 && _inputValidation.contains("@")
+              ? null
+              : print('pls check your email');
+        },
+        decoration: BoxDecoration(
+          border: Border(
+              bottom:
+                  BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
+        ),
+        placeholder: 'test@test.com',
+        onChanged: (_input) {
+          print(_input);
+          setState(() {
+            _email = _input;
+          });
+        });
   }
 
   Widget _passwordTextField() {
@@ -142,9 +156,14 @@ class _LoginPageState extends State<LoginPage> {
             bottom: BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
       ),
       placeholder: 'password',
-      onChanged: (value) {
-        //value = _txtEmailCntrllr.toString();
-        TextStyle(fontSize: 25, color: CupertinoColors.activeGreen);
+      onChanged: (_input) {
+        print(_input);
+        setState(() {
+          _pasword = _input;
+        });
+      },
+      onSubmitted: (_input) {
+        return _input.length != 0 ? null : print('Pls check lenght');
       },
     );
   }
@@ -161,18 +180,20 @@ class _LoginPageState extends State<LoginPage> {
       height: _altoScreen * 0.06,
       width: _anchoScreen,
       child: CupertinoButton.filled(
-        onPressed: () {
-          // if (_formKey.currentState.validate()) {
-          //   _auth.loginUserWithEmailAndPassword(_email, _password);
-          // }
-        },
         child: Text(
           "LOGIN",
+          textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: CupertinoColors.white),
         ),
+        onPressed: () {
+          print('Button Pressed');
+          if (_formKey.currentState.validate()) {
+            print('Valid stuff things');
+          }
+        },
       ),
     );
   }
@@ -195,6 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: FontWeight.w700,
                 color: CupertinoColors.white),
           ),
+          onPressed: () {},
         ),
       ),
     );
