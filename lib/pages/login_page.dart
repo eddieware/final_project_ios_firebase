@@ -11,6 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController _txtPassCntrllr = new TextEditingController();
+  TextEditingController _txtEmailCntrllr = new TextEditingController();
+
   double _altoScreen;
   double _anchoScreen;
   String _email;
@@ -27,6 +30,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     _altoScreen = MediaQuery.of(context).size.height;
     _anchoScreen = MediaQuery.of(context).size.width;
+    _txtEmailCntrllr.text = 'test@test.com';
+    _txtPassCntrllr.text = 'password';
 
     return Material(
       child: CupertinoPageScaffold(
@@ -49,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     //para usar el build context
     return Builder(builder: (BuildContext _context) {
       _auth = Provider.of<AuthProvider>(_context);
-      print(_auth.user);
+
       return Container(
         //color: CupertinoColors.activeBlue,
         height: _altoScreen * 0.60,
@@ -75,12 +80,18 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Welcome to my App!",
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
+            "Welcome to EddiewareApp!",
+            style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.w700,
+                color: CupertinoColors.white),
           ),
           Text(
             "Please login to your account.",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200),
+            style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w200,
+                color: CupertinoColors.white),
           ),
         ],
       ),
@@ -88,11 +99,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _inputForm() {
-    print(_email);
+    // print(_email);
 
-    print(_password);
+    // print(_password);
     return Container(
       //color: CupertinoColors.activeBlue,
+
       height: _altoScreen * 0.26,
       child: Form(
         key: _formKey,
@@ -107,7 +119,6 @@ class _LoginPageState extends State<LoginPage> {
             _emailTextField(),
             _passwordTextField(),
             _loginButton(),
-            _registerButton()
 
             //_passwordTextField(),
           ],
@@ -118,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _emailTextField() {
     return CupertinoTextField(
-        //controller: _txtEmailCntrllr,
+        controller: _txtEmailCntrllr,
         prefix: Icon(
           CupertinoIcons.mail_solid,
           color: CupertinoColors.systemGrey3,
@@ -149,8 +160,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _passwordTextField() {
     return CupertinoTextField(
-      //controller: _txtEmailCntrllr,
-
+      controller: _txtPassCntrllr,
       prefix: Icon(
         CupertinoIcons.padlock_solid,
         color: CupertinoColors.systemGrey3,
@@ -179,14 +189,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginButton() {
-    return
-        // _auth.status == AuthStatus.Authenticating
-        //     ? Align(
-        //         alignment: Alignment.center,
-        //         child: CircularProgressIndicator(),
-        //       )
-        //     :
-        Container(
+    return Container(
       height: _altoScreen * 0.06,
       width: _anchoScreen,
       child: CupertinoButton.filled(
@@ -199,36 +202,16 @@ class _LoginPageState extends State<LoginPage> {
               color: CupertinoColors.white),
         ),
         onPressed: () {
-          print('Button Pressed');
-          if (_formKey.currentState.validate()) {
-            print('Valid stuff things');
-            _auth.loginUserWithEmailAndPassword(_email, _password);
+          print(_auth.user);
+          _auth.loginUserWithEmailAndPassword(
+              _txtEmailCntrllr.text, _txtPassCntrllr.text);
+          if (_auth.user == null) {
+            print('Usuario no valido');
+          } else {
+            print('Usuario Valido');
+            Navigator.pushNamed(context, '/profile');
           }
         },
-      ),
-    );
-  }
-
-  Widget _registerButton() {
-    return GestureDetector(
-      onTap: () {
-        //NavigationService.instance.navigateTo("register");
-        print('Este boton es para el registro');
-      },
-      child: Container(
-        height: _altoScreen * 0.06,
-        width: _anchoScreen,
-        child: CupertinoButton(
-          child: Text(
-            "REGISTER",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: CupertinoColors.white),
-          ),
-          onPressed: () {},
-        ),
       ),
     );
   }
