@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -13,19 +12,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
+          middle: Text('Info Page'),
+          // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
           backgroundColor: CupertinoColors.activeBlue,
-          middle: Text('Profile'),
         ),
-        child: Container(
-          color: CupertinoColors.black,
-          child: ListView(
-            children: <Widget>[
-              Text(
-                'text',
-                style: TextStyle(fontSize: 26),
-              )
-            ],
-          ),
-        ));
+        child: Text('ProfilePage'));
   }
 }

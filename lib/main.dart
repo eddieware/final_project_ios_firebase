@@ -1,5 +1,6 @@
 import 'package:final_project_ios_firebase/pages/followers.dart';
 import 'package:final_project_ios_firebase/pages/login_page.dart';
+import 'package:final_project_ios_firebase/pages/home_screen.dart';
 import 'package:final_project_ios_firebase/pages/registration_page.dart';
 import 'package:final_project_ios_firebase/routes/routes.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: 'Cupertino App',
-      home: FollowersPage(),
+      home: HomeScreen(),
       routes: getApplicationRoutes(),
       theme: CupertinoThemeData(
         brightness: Brightness.dark,
