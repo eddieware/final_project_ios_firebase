@@ -1,4 +1,5 @@
 import 'package:final_project_ios_firebase/pages/login_page.dart';
+import 'package:final_project_ios_firebase/pages/registration_page.dart';
 import 'package:final_project_ios_firebase/routes/routes.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -11,13 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: 'Cupertino App',
-      home: LoginPage(),
+      home: RegistrationPage(),
       routes: getApplicationRoutes(),
       theme: CupertinoThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: CupertinoColors.black,
         textTheme: CupertinoTextThemeData(
-            //primaryColor: CupertinoColors.systemGrey4,
+            primaryColor: CupertinoColors.systemGrey4,
             textStyle: TextStyle(color: CupertinoColors.white)),
       ),
     );
