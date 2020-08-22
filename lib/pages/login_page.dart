@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     return Material(
       child: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text('Food App'),
+          middle: Text('Login'),
           // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
           backgroundColor: CupertinoColors.activeBlue,
         ),
@@ -231,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _registerButton() {
     return GestureDetector(
       onTap: () {
-        //NavigationService.instance.navigateTo("register");
+        Navigator.pushNamed(context, '/register');
       },
       child: Container(
         height: _altoScreen * 0.06,

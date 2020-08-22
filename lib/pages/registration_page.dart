@@ -21,6 +21,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
     _anchodevice = MediaQuery.of(context).size.width;
 
     return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Registro '),
+          // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+          backgroundColor: CupertinoColors.activeBlue,
+        ),
         backgroundColor: CupertinoColors.black,
         child: Container(
           alignment: Alignment.center,
@@ -231,7 +236,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _backToLoginPageButton() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, '/home');
+      },
       child: Container(
         height: _altodevice * 0.08,
         width: _anchodevice,
