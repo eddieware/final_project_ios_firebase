@@ -42,7 +42,8 @@ class _FollowersPageState extends State<FollowersPage> {
           // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
           backgroundColor: CupertinoColors.activeBlue,
         ),
-        backgroundColor: CupertinoColors.white,
+
+        //backgroundColor: CupertinoColors.white,
         child: CustomScrollView(
           slivers: <Widget>[
             // CupertinoSliverNavigationBar(
@@ -94,7 +95,7 @@ class _FollowersPageState extends State<FollowersPage> {
       ),
       title: Text(
         document['name'],
-        style: TextStyle(fontSize: 23),
+        style: TextStyle(fontSize: 23, color: CupertinoColors.white),
       ),
       subtitle: Row(
         mainAxisSize: MainAxisSize.min,
@@ -103,7 +104,7 @@ class _FollowersPageState extends State<FollowersPage> {
             //color: CupertinoColors.activeGreen,
             child: Text(
               document['email'].toString(),
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22, color: CupertinoColors.white),
             ),
           ),
 

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:final_project_ios_firebase/providers/auth_provider.dart';
 import 'package:final_project_ios_firebase/services/cloud_storage_service.dart';
 import 'package:final_project_ios_firebase/services/db_service.dart';

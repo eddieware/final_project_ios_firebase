@@ -22,11 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text('Info'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.person_solid),
+          icon: Icon(CupertinoIcons.person_add_solid),
           title: Text('Animation'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.share_up),
+          icon: Icon(CupertinoIcons.photo_camera),
           title: Text('Cards'),
         ),
       ]),

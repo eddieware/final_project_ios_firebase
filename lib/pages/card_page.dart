@@ -82,6 +82,7 @@ class CardScreen extends StatelessWidget {
 
     return Container(
       //height: 100.0,
+
       margin: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         //color: CupertinoColors.activeBlue,
