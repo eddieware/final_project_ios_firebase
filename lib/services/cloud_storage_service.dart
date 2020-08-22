@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CloudStorageService {
-  static CloudStorageService instante = CloudStorageService();
+  static CloudStorageService instance = CloudStorageService();
 
   FirebaseStorage _storage;
   StorageReference _baseRef;

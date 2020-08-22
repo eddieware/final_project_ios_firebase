@@ -36,26 +36,6 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void registerUserWithEmailAndPassword(String _email, String _password,
-  //     Future<void> onSuccess(String _uid)) async {
-  //   status = AuthStatus.Authenticating;
-  //   notifyListeners();
-  //   try {
-  //     AuthResult _result = await _auth.createUserWithEmailAndPassword(
-  //         email: _email, password: _password);
-  //     user = _result.user;
-  //     status = AuthStatus.Authenticated;
-  //     await onSuccess(user.uid);
-  //     print('Welcome, ${user.email}');
-  //   } catch (e) {
-  //     print(e);
-  //     print('Error Rgistring user');
-  //     status = AuthStatus.Error;
-  //     user = null;
-  //   }
-  //   notifyListeners();
-  // }
-
   void registerUserWithEmailAndPassword(String _email, String _password,
       Future<void> onSuccess(String _uid)) async {
     status = AuthStatus.Authenticating;
@@ -66,9 +46,12 @@ class AuthProvider extends ChangeNotifier {
       user = _result.user;
       status = AuthStatus.Authenticated;
       await onSuccess(user.uid);
+      print('Inserted OK');
     } catch (e) {
       status = AuthStatus.Error;
       user = null;
+      print(e);
+      print('Error registering User');
       //SnackBarService.instance.showSnackBarError("Error Registering User");
     }
     notifyListeners();

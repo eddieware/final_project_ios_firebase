@@ -21,6 +21,7 @@ class DBService {
       });
     } catch (e) {
       print(e);
+      //print('Register error');
     }
   }
 }

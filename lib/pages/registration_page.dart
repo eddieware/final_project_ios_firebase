@@ -17,7 +17,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   double _altodevice;
   double _anchodevice;
 
-  GlobalKey<FormState> _formKey;
+  //GlobalKey<FormState> _formKey;
 
   AuthProvider _auth;
 
@@ -28,7 +28,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   File _image;
 
   _RegistrationPageState() {
-    _formKey = GlobalKey<FormState>();
+    //_formKey = GlobalKey<FormState>();
   }
 
   @override
@@ -47,12 +47,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           alignment: Alignment.center,
           child: ChangeNotifierProvider<AuthProvider>.value(
             value: AuthProvider.instance,
-            child: signUpPageUI(),
+            child: registrationPageUI(),
           ),
         ));
   }
 
-  Widget signUpPageUI() {
+  Widget registrationPageUI() {
     return Builder(builder: (BuildContext _context) {
       _auth = Provider.of<AuthProvider>(_context);
       return Container(
@@ -63,7 +63,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[_headingWidget(), _inputForm()],
+          children: <Widget>[
+            _headingWidget(),
+            _inputForm(),
+            _registerButton(),
+            _backToLoginPageButton()
+          ],
         ),
       );
     });
@@ -103,9 +108,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       //color: CupertinoColors.destructiveRed,
       height: _altodevice * 0.4,
       child: Form(
-          key: _formKey,
+          //key: _formKey,
           onChanged: () {
-            _formKey.currentState.save();
+            //_formKey.currentState.save();
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -119,8 +124,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 height: 10,
               ),
-              _registerButton(),
-              _backToLoginPageButton()
             ],
           )),
     );
@@ -184,7 +187,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         onChanged: (_input) {
           print(_input);
           setState(() {
-            //_email = _input;
+            _name = _input;
           });
         });
   }
@@ -206,6 +209,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             print('pls check your email');
           } else {
             _email = _inputValidation;
+            print(_email);
           }
         },
         decoration: BoxDecoration(
@@ -215,9 +219,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
         placeholder: 'test@test.com',
         onChanged: (_input) {
-          print(_input);
+          //print(_input);
           setState(() {
-            // _email = _input;
+            _email = _input;
           });
         });
   }
@@ -241,9 +245,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
       placeholder: 'password',
       onChanged: (_input) {
-        print(_input);
+        //print(_input);
         setState(() {
-          // _password = _input;
+          _password = _input;
         });
       },
       onSubmitted: (_input) {
@@ -262,31 +266,39 @@ class _RegistrationPageState extends State<RegistrationPage> {
             height: _altodevice * 0.06,
             width: _anchodevice,
             child: CupertinoButton.filled(
-              child: Text(
-                "Register",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: CupertinoColors.white),
-              ),
-              onPressed: () {
-                if (_formKey.currentState.validate() && _image != null) {
-                  // _auth.registerUserWithEmailAndPassword(_email, _password,
-                  //     (String _uid) async {
-                  //   var _result = await CloudStorageService.instante
-                  //       .uploadUserImage(_uid, _image);
-                  //   var _imageURL = await _result.ref.getDownloadURL();
-                  //   await DBService.instance
-                  //       .createUserInDB(_uid, _name, _email, _imageURL);
-                  // });
-                  // DBService.instance.createUserInDB("01234", "lisa", "liza@gmailcom",
-                  //     "https://scontent.fgdl10-1.fna.fbcdn.net/v/t1.0-9/96000604_2542606716054288_5177880257000112128_o.jpg?_nc_cat=111&_nc_sid=09cbfe&_nc_eui2=AeHECZXYqGge69kRUNJGSvEqAqXhaAbnJsMCpeFoBucmw5xfDG-JWwxiZ1yOfIE-q17SqQ8qWukakDG_whiuUdu8&_nc_ohc=nOiTl05GwHIAX8w9K-9&_nc_ht=scontent.fgdl10-1.fna&oh=4b54479c4199d77fe712a683ebed1b6d&oe=5F65DF53");
+                child: Text(
+                  "Register",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: CupertinoColors.white),
+                ),
+                onPressed: () {
+                  if (_image != null) {
+                    print('SI PASO POR EL REGISTRO1');
+                    _auth.registerUserWithEmailAndPassword(_email, _password,
+                        (String _uid) async {
+                      var _result = await CloudStorageService.instance
+                          .uploadUserImage(_uid, _image);
+                      var _imageURL = await _result.ref.getDownloadURL();
+                      await DBService.instance
+                          .createUserInDB(_uid, _name, _email, _imageURL);
+                      //para regresar poseterior al registro
+                      print('SI PASO POR EL REGISTRO');
+                      Navigator.pushNamed(context, '/home');
+                    });
+                    //   DBService.instance.createUserInDB(
+                    //       "0123456",
+                    //       "lisav3",
+                    //       "liza@gmailcom",
+                    //       "https://scontent.fgdl10-1.fna.fbcdn.net/v/t1.0-9/96000604_2542606716054288_5177880257000112128_o.jpg?_nc_cat=111&_nc_sid=09cbfe&_nc_eui2=AeHECZXYqGge69kRUNJGSvEqAqXhaAbnJsMCpeFoBucmw5xfDG-JWwxiZ1yOfIE-q17SqQ8qWukakDG_whiuUdu8&_nc_ohc=nOiTl05GwHIAX8w9K-9&_nc_ht=scontent.fgdl10-1.fna&oh=4b54479c4199d77fe712a683ebed1b6d&oe=5F65DF53");
+                    // }
+
+                  }
                 }
-                print('Register Button');
-              },
-              //padding: EdgeInsets.symmetric(horizontal: 140, vertical: 7),
-            ),
+                //padding: EdgeInsets.symmetric(horizontal: 140, vertical: 7),
+                ),
           )
         : Align(
             alignment: Alignment.center,
