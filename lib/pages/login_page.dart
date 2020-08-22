@@ -213,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () async {
                 //para evitar el bug y esperar a que regrese antes de hacer el salto
                 await _auth.loginUserWithEmailAndPassword(
-                    _txtEmailCntrllr.text, _txtPassCntrllr.text);
+                    _txtEmailCntrllr.text, _txtPassCntrllr.text, () {});
                 //print('${_auth.user}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                 print('${_txtEmailCntrllr.text}');
                 print('${_txtPassCntrllr.text}');

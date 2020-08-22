@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:final_project_ios_firebase/providers/auth_provider.dart';
+import 'package:final_project_ios_firebase/services/cloud_storage_service.dart';
+import 'package:final_project_ios_firebase/services/db_service.dart';
 import 'package:final_project_ios_firebase/services/media_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -13,6 +18,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   double _anchodevice;
 
   GlobalKey<FormState> _formKey;
+
+  AuthProvider _auth;
 
   String _name;
   String _email;
@@ -38,22 +45,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
         backgroundColor: CupertinoColors.black,
         child: Container(
           alignment: Alignment.center,
-          child: signUpPageUI(),
+          child: ChangeNotifierProvider<AuthProvider>.value(
+            value: AuthProvider.instance,
+            child: signUpPageUI(),
+          ),
         ));
   }
 
   Widget signUpPageUI() {
-    return Container(
-      //color: CupertinoColors.destructiveRed,
-      height: _altodevice * 0.75,
-      padding: EdgeInsets.symmetric(horizontal: _anchodevice * 0.1),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[_headingWidget(), _inputForm()],
-      ),
-    );
+    return Builder(builder: (BuildContext _context) {
+      _auth = Provider.of<AuthProvider>(_context);
+      return Container(
+        //color: CupertinoColors.destructiveRed,
+        height: _altodevice * 0.75,
+        padding: EdgeInsets.symmetric(horizontal: _anchodevice * 0.1),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[_headingWidget(), _inputForm()],
+        ),
+      );
+    });
   }
 
   Widget _headingWidget() {
@@ -244,24 +257,41 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget _registerButton() {
-    return Container(
-      height: _altodevice * 0.06,
-      width: _anchodevice,
-      child: CupertinoButton.filled(
-        child: Text(
-          "Register",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: CupertinoColors.white),
-        ),
-        onPressed: () {
-          print('Register Button');
-        },
-        //padding: EdgeInsets.symmetric(horizontal: 140, vertical: 7),
-      ),
-    );
+    return _auth.status != AuthStatus.NotAuthenticated
+        ? Container(
+            height: _altodevice * 0.06,
+            width: _anchodevice,
+            child: CupertinoButton.filled(
+              child: Text(
+                "Register",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: CupertinoColors.white),
+              ),
+              onPressed: () {
+                if (_formKey.currentState.validate() && _image != null) {
+                  // _auth.registerUserWithEmailAndPassword(_email, _password,
+                  //     (String _uid) async {
+                  //   var _result = await CloudStorageService.instante
+                  //       .uploadUserImage(_uid, _image);
+                  //   var _imageURL = await _result.ref.getDownloadURL();
+                  //   await DBService.instance
+                  //       .createUserInDB(_uid, _name, _email, _imageURL);
+                  // });
+                  // DBService.instance.createUserInDB("01234", "lisa", "liza@gmailcom",
+                  //     "https://scontent.fgdl10-1.fna.fbcdn.net/v/t1.0-9/96000604_2542606716054288_5177880257000112128_o.jpg?_nc_cat=111&_nc_sid=09cbfe&_nc_eui2=AeHECZXYqGge69kRUNJGSvEqAqXhaAbnJsMCpeFoBucmw5xfDG-JWwxiZ1yOfIE-q17SqQ8qWukakDG_whiuUdu8&_nc_ohc=nOiTl05GwHIAX8w9K-9&_nc_ht=scontent.fgdl10-1.fna&oh=4b54479c4199d77fe712a683ebed1b6d&oe=5F65DF53");
+                }
+                print('Register Button');
+              },
+              //padding: EdgeInsets.symmetric(horizontal: 140, vertical: 7),
+            ),
+          )
+        : Align(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          );
   }
 
   Widget _backToLoginPageButton() {
