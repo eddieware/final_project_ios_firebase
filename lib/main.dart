@@ -1,9 +1,5 @@
-import 'package:final_project_ios_firebase/pages/followers.dart';
 import 'package:final_project_ios_firebase/pages/login_page.dart';
-import 'package:final_project_ios_firebase/pages/home_screen.dart';
-import 'package:final_project_ios_firebase/pages/registration_page.dart';
 import 'package:final_project_ios_firebase/routes/routes.dart';
-import 'package:final_project_ios_firebase/services/db_service.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:final_project_ios_firebase/services/media_service.dart';
 import 'package:flutter/cupertino.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -14,6 +17,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String _name;
   String _email;
   String _password;
+
+  File _image;
 
   _RegistrationPageState() {
     _formKey = GlobalKey<FormState>();
@@ -110,6 +115,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _imageHeadingWidget() {
     return Align(
+        child: GestureDetector(
+      onTap: () async {
+        File _imageFile = await MediaService.instance.getImageFromLibrary();
+        setState(() {
+          _image = _imageFile;
+        });
+      },
       child: Container(
         height: _altodevice * 0.10,
         width: _altodevice * 0.10,
@@ -118,10 +130,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
             borderRadius: BorderRadius.circular(500),
             image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://i0.wp.com/lrwa.org/wp-content/uploads/2020/01/register-icon.png?fit=250%2C242&ssl=1"))),
+                image: _image != null
+                    ? FileImage(_image)
+                    : NetworkImage(
+                        "https://i0.wp.com/lrwa.org/wp-content/uploads/2020/01/register-icon.png?fit=250%2C242&ssl=1"))),
       ),
-    );
+    ));
   }
 
   Widget _nameTextField() {
