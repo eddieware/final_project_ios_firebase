@@ -11,6 +11,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   GlobalKey<FormState> _formKey;
 
+  String _name;
+  String _email;
+  String _password;
+
   _RegistrationPageState() {
     _formKey = GlobalKey<FormState>();
   }
@@ -134,9 +138,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
         keyboardType: TextInputType.emailAddress,
         autocorrect: false,
         onSubmitted: (_inputValidation) {
-          return _inputValidation.length != 0
-              ? null
-              : print('pls check your email');
+          // return _inputValidation.length != 0
+          //     ? null
+          //     : print('pls check your email');
+
+          if (_inputValidation.length != 0 || null) {
+            print('pls check your email');
+          } else {
+            _name = _inputValidation;
+          }
         },
         decoration: BoxDecoration(
           border: Border(
@@ -165,9 +175,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
         keyboardType: TextInputType.emailAddress,
         autocorrect: false,
         onSubmitted: (_inputValidation) {
-          return _inputValidation.length != 0 && _inputValidation.contains("@")
-              ? null
-              : print('pls check your email');
+          if (_inputValidation.length != 0 || null) {
+            print('pls check your email');
+          } else {
+            _email = _inputValidation;
+          }
         },
         decoration: BoxDecoration(
           border: Border(
@@ -208,7 +220,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
         });
       },
       onSubmitted: (_input) {
-        return _input.length != 0 ? null : print('Pls check lenght');
+        if (_input.length != 0 || null) {
+          print('pls check your password');
+        } else {
+          _password = _input;
+        }
       },
     );
   }
