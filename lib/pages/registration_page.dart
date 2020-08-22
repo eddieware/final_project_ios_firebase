@@ -74,7 +74,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget _inputForm() {
     return Container(
       //color: CupertinoColors.destructiveRed,
-      height: _altodevice * 0.35,
+      height: _altodevice * 0.4,
       child: Form(
           key: _formKey,
           onChanged: () {
@@ -86,6 +86,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _imageHeadingWidget(),
+              _nameTextField(),
+              _emailTextField(),
+              _passwordTextField(),
+              SizedBox(
+                height: 10,
+              ),
+              _registerButton(),
+              _backToLoginPageButton()
             ],
           )),
     );
@@ -102,7 +110,135 @@ class _RegistrationPageState extends State<RegistrationPage> {
             image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                    "https://www.eips.ca/uploads/15490364431100w_registernow1/1580856827-1100w_15490364431100w_registernow1.png"))),
+                    "https://i0.wp.com/lrwa.org/wp-content/uploads/2020/01/register-icon.png?fit=250%2C242&ssl=1"))),
+      ),
+    );
+  }
+
+  Widget _nameTextField() {
+    return CupertinoTextField(
+        //controller: _txtEmailCntrllr,
+
+        prefix: Icon(
+          CupertinoIcons.person_add_solid,
+          color: CupertinoColors.systemGrey3,
+          size: 35.0,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
+        clearButtonMode: OverlayVisibilityMode.editing,
+        keyboardType: TextInputType.emailAddress,
+        autocorrect: false,
+        onSubmitted: (_inputValidation) {
+          return _inputValidation.length != 0
+              ? null
+              : print('pls check your email');
+        },
+        decoration: BoxDecoration(
+          border: Border(
+              bottom:
+                  BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
+        ),
+        placeholder: 'Name',
+        onChanged: (_input) {
+          print(_input);
+          setState(() {
+            //_email = _input;
+          });
+        });
+  }
+
+  Widget _emailTextField() {
+    return CupertinoTextField(
+        // controller: _txtEmailCntrllr,
+        prefix: Icon(
+          CupertinoIcons.mail_solid,
+          color: CupertinoColors.systemGrey3,
+          size: 35.0,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
+        clearButtonMode: OverlayVisibilityMode.editing,
+        keyboardType: TextInputType.emailAddress,
+        autocorrect: false,
+        onSubmitted: (_inputValidation) {
+          return _inputValidation.length != 0 && _inputValidation.contains("@")
+              ? null
+              : print('pls check your email');
+        },
+        decoration: BoxDecoration(
+          border: Border(
+              bottom:
+                  BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
+        ),
+        placeholder: 'test@test.com',
+        onChanged: (_input) {
+          print(_input);
+          setState(() {
+            // _email = _input;
+          });
+        });
+  }
+
+  Widget _passwordTextField() {
+    return CupertinoTextField(
+      //controller: _txtPassCntrllr,
+      prefix: Icon(
+        CupertinoIcons.padlock_solid,
+        color: CupertinoColors.systemGrey3,
+        size: 35.0,
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 12.0),
+      clearButtonMode: OverlayVisibilityMode.editing,
+      keyboardType: TextInputType.emailAddress,
+      autocorrect: false,
+      obscureText: true,
+      decoration: BoxDecoration(
+        border: Border(
+            bottom: BorderSide(width: 1, color: CupertinoColors.inactiveGray)),
+      ),
+      placeholder: 'password',
+      onChanged: (_input) {
+        print(_input);
+        setState(() {
+          // _password = _input;
+        });
+      },
+      onSubmitted: (_input) {
+        return _input.length != 0 ? null : print('Pls check lenght');
+      },
+    );
+  }
+
+  Widget _registerButton() {
+    return Container(
+      height: _altodevice * 0.06,
+      width: _anchodevice,
+      child: CupertinoButton.filled(
+        child: Text(
+          "Register",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: CupertinoColors.white),
+        ),
+        onPressed: () {
+          print('Register Button');
+        },
+        //padding: EdgeInsets.symmetric(horizontal: 140, vertical: 7),
+      ),
+    );
+  }
+
+  Widget _backToLoginPageButton() {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        height: _altodevice * 0.08,
+        width: _anchodevice,
+        child: Icon(
+          CupertinoIcons.back,
+          size: 32,
+        ),
       ),
     );
   }
