@@ -22,7 +22,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text('Registro '),
+          middle: Text('Registro'),
           // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
           backgroundColor: CupertinoColors.activeBlue,
         ),

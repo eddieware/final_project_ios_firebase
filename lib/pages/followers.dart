@@ -18,6 +18,8 @@ class DemoInfo {
 }
 
 class _FollowersPageState extends State<FollowersPage> {
+  double _altodevice;
+  double _anchodevice;
   @override
   void initState() {
     super.initState();
@@ -31,14 +33,21 @@ class _FollowersPageState extends State<FollowersPage> {
 
   @override
   Widget build(BuildContext context) {
+    _altodevice = MediaQuery.of(context).size.height;
+    _anchodevice = MediaQuery.of(context).size.width;
     return Material(
       child: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Followers Page'),
+          // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+          backgroundColor: CupertinoColors.activeBlue,
+        ),
         backgroundColor: CupertinoColors.white,
         child: CustomScrollView(
           slivers: <Widget>[
-            CupertinoSliverNavigationBar(
-              largeTitle: Text('Followers Page'),
-            ),
+            // CupertinoSliverNavigationBar(
+            //   largeTitle: Text('Followers Page'),
+            // ),
             SliverSafeArea(
                 sliver: StreamBuilder<QuerySnapshot>(
               builder: (BuildContext context,
@@ -65,12 +74,40 @@ class _FollowersPageState extends State<FollowersPage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return ListTile(
-      title: Text(document['name']),
-      trailing: Row(
+      leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(document['email'].toString()),
-          Icon(CupertinoIcons.right_chevron),
+          // Icon(
+          //   CupertinoIcons.person_add_solid,
+          //   size: 53,
+          // ),
+          Container(
+            height: _altodevice * 0.10,
+            width: _anchodevice * 0.15,
+            decoration: BoxDecoration(
+                color: CupertinoColors.systemGrey4,
+                borderRadius: BorderRadius.circular(500),
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: NetworkImage(document['image']))),
+          ),
+        ],
+      ),
+      title: Text(
+        document['name'],
+        style: TextStyle(fontSize: 23),
+      ),
+      subtitle: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            //color: CupertinoColors.activeGreen,
+            child: Text(
+              document['email'].toString(),
+              style: TextStyle(fontSize: 22),
+            ),
+          ),
+
+          //Icon(CupertinoIcons.right_chevron),
         ],
       ),
     );
