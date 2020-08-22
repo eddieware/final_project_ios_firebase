@@ -5,18 +5,23 @@ class CardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-        child: CustomScrollView(
-      slivers: <Widget>[
-        CupertinoSliverNavigationBar(
-          largeTitle: Text('Cards'),
+        navigationBar: CupertinoNavigationBar(
+          middle: Text('Cards Page'),
+          // backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+          backgroundColor: CupertinoColors.activeBlue,
         ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          _cardTipo1(),
-          _cardTipo2(context),
-        ]))
-      ],
-    ));
+        child: CustomScrollView(
+          slivers: <Widget>[
+            // CupertinoSliverNavigationBar(
+            //   largeTitle: Text('Cards'),
+            // ),
+            SliverList(
+                delegate: SliverChildListDelegate([
+              _cardTipo1(),
+              _cardTipo2(context),
+            ]))
+          ],
+        ));
   }
 
   Widget _cardTipo1() {
